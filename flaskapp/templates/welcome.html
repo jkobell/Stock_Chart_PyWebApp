@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Chart PyWebApp</title>
+    <link rel="stylesheet" href="/static/welcome.css" /> 
+</head>
+<body>
+    <div class="header_wrapper">
+        <div class="logo_container_wrapper">
+            <div class="logo_container">
+                <div id="logo">
+                    INF891<br />
+                    STOCK CHART PyWebApp
+                </div>
+            </div>
+        </div>
+        <div class="stock_msg_container_wrapper">
+            <div class="stock_msg_container">
+                <div id="stock_msg_label">
+                    Stock Data Source
+                </div>
+                <div id="stock_msg">
+                    Connected: US Markets are OPEN
+                </div>
+            </div>
+        </div>
+        <div class="sentiment_msg_container_wrapper">
+            <div class="sentiment_msg_container">
+                <div id="sentiment_msg_label">
+                    AI ML Sentiment Data Source
+                </div>
+                <div id="sentiment_msg">
+                    Connected: AI ML Sentiment data is available
+                </div>
+            </div>
+        </div>
+        <div class="stock_symbol_container_wrapper">
+            <div class="stock_symbol_container">
+                <div id="stock_symbol_label">
+                    US Stock Symbol
+                </div>
+                <div id=stock_symbol_div>
+                    <input id=stock_symbol_textbox type="text" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="chart_wrapper">
+        <div class="chart_top_controls_container">
+            <div class="load_button_wrapper">
+                <input id="load_button" type="button" value="Load"/>
+            </div>
+            <div class="chart_resolution_wrapper">
+                <div id="chart_resolution_label">
+                    Chart Resolution
+                </div>
+                <div class="chart_resolution_control_container">
+                    <input id="chart_resolution_control_left_arrow" type="button" value="&#8678;"/>
+                    <input id=chart_resolution_control_textbox type="text" />
+                    <input id="chart_resolution_control_right_arrow" type="button" value="&#8680;"/>
+                </div>
+            </div>
+            <div class="stop_button_wrapper">
+                <input id="stop_button" type="button" value="Stop"/>
+            </div>
+        </div>
+        <div class="graphs_wrapper">
+            <div class="graphs_container">
+
+            </div>
+        </div>
+        <div class="chart_bottom_controls_container"></div>
+
+        </div>
+    </div>
+</body>
+</html>

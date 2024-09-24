@@ -1,0 +1,13 @@
+<!doctype html>
+    <body>
+        <div>
+            {% if user_name == 'meme' %}
+                <h1>Hello Flask World User: {{user_name}}</h1>
+            {% else %}
+                <h1>Hello Flask without a user name.</h1>
+            {% endif %}
+            <h3>GMT/UTC time: {{gmt_time}}</h3>
+            <h3>EPOCH/Unix time: {{unix_time}}</h3>
+        </div>
+        <script src="/static/welcome.js" charset="utf-8"></script>
+    </body>
