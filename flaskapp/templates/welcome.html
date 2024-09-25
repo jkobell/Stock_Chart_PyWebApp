@@ -49,6 +49,7 @@
     </div>
     <div class="chart_wrapper">
         <div class="chart_top_controls_container">
+            <div class="chart_top_controls_container_padding"></div>
             <div class="load_button_wrapper">
                 <input id="load_button" type="button" value="Load"/>
             </div>
@@ -56,18 +57,40 @@
                 <div id="chart_resolution_label">
                     Chart Resolution
                 </div>
-                <div class="chart_resolution_control_container">
-                    <input id="chart_resolution_control_left_arrow" type="button" value="&#8678;"/>
-                    <input id=chart_resolution_control_textbox type="text" />
-                    <input id="chart_resolution_control_right_arrow" type="button" value="&#8680;"/>
+                <div class="chart_resolution_control_wrapper">
+                    <div class="chart_resolution_control_left_arrow_container">
+                        <input id="chart_resolution_control_left_arrow" type="button" value="&#8678;"/>
+                    </div>
+                    <div class="chart_resolution_control_textbox_container">
+                        <input id=chart_resolution_control_textbox type="text" />
+                    </div>
+                    <div class="chart_resolution_control_right_arrow_container">
+                        <input id="chart_resolution_control_right_arrow" type="button" value="&#8680;"/>
+                    </div>
                 </div>
             </div>
             <div class="stop_button_wrapper">
                 <input id="stop_button" type="button" value="Stop"/>
             </div>
+            <div class="chart_top_controls_container_padding"></div>
         </div>
         <div class="graphs_wrapper">
-            <div class="graphs_container">
+            <div class="price_graph_container">
+                <div id="price_label">
+                    Stock Trading Price
+                </div>
+            </div>
+            <div class="volume_graph_container">
+                <div id="volume_label">
+                    Stock Trading Volume
+                </div>
+            </div>
+            <div class="sentiment_graph_container">
+                <div id="sentiment_label">
+                    AI ML Stock Sentiment
+                </div>
+            </div>
+            <div class="x_axis_container">
 
             </div>
         </div>
