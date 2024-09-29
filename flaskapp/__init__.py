@@ -1,6 +1,7 @@
 import time
 from flask import Flask
 from flask import render_template
+import flaskapp.src.fire as fr
 
 app = Flask(__name__)
 
@@ -11,3 +12,7 @@ def hello(user=None):
 @app.route('/welcome')
 def welcome():
     return render_template('welcome.html')
+
+@app.route('/draw')
+def draw():
+    return f'<!doctype html><body><div>{fr.make_chart()}</div></body>'
