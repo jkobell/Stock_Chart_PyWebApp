@@ -28,3 +28,8 @@ def draw_two_share_xaxis():
 @app.route('/draw_xaxis')
 def draw_xaxis_only():
     return f'<!doctype html><body><div style="text-align:right;">{fr.make_xaxis_only_svg_chart()}</div></body>'
+
+@app.route('/draw_sent/<symbol>')
+def draw_sent_bar_graph(symbol=None):
+    svg_chart = fr.make_sent_svg_chart(symbol)
+    return f'<!doctype html><body><div style="text-align:right;">{svg_chart}</div></body>'
