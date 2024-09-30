@@ -1,6 +1,8 @@
 import json
 import pandas as pd
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from io import StringIO
@@ -87,19 +89,14 @@ def make_xaxis_only_svg_chart():
     df = pd.DataFrame(candlestick_py_obj)
     dfdt = pd.to_datetime(df.t, unit='s')
     plt.ioff()
-    #fig1 = plt.figure(figsize=[18.0, 12.0], facecolor="lightblue") #new instance for each chart
-    #fig3 = plt.figure(figsize=[16.0, 9.0], frameon=False) #new instance for each chart
-    fig4 = plt.figure(figsize=[16.0, 2.0], frameon=True) #new instance for each chart
+    fig4 = plt.figure(figsize=[16.0, 2.0], frameon=False) #new instance for each chart
     value=0
     plt.plot(dfdt, [value for _ in range(len(dfdt))], scaley=False, linestyle='None')
     plt.ylabel(None)
     plt.xticks(dfdt, rotation = 90)
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m-%d-%Y %H:%M'))
-    #plt.yticks(np.arange(0, 1, 1))
     plt.yticks([])
-    #plt.ylim(1.0,2.0)
     plt.tight_layout()
-    #fig4.set_visible(False)
     plt.close()
     plt_data = StringIO()
     fig4.savefig(plt_data, format='svg') # svg format for better scale/zoom image

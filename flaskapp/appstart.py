@@ -1,7 +1,7 @@
 import time
 from flask import Flask
 from flask import render_template
-import flaskapp.src.fire as fr
+import src.fire as fr
 
 app = Flask(__name__)
 
