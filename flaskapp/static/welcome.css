@@ -274,3 +274,20 @@
     flex:1 0 5em;
     background-color: darkcyan;
 }
+
+/* begin graphs */
+.price_graph_div {
+    text-align: center;
+}
+.volume_yaxis_label {
+    display:inline-block;
+    margin-right: -25px;
+}
+.volume_graph_div {
+    display:inline-block;
+    margin-left: -30px;
+}
+.sentiment_graph_div {
+    text-align: center;
+}
+/* end graphs */
