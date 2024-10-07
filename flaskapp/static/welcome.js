@@ -86,6 +86,24 @@ function IncrementResolution() {
 async function LoadChartImages() {
     const domain = 'http://127.0.0.1:5000';
     try {
+        const fetch_price_yaxis_response = await fetch(domain + '/draw_price_yaxis');
+        if (!fetch_price_yaxis_response.ok) {
+            throw new Error('Price yaxis is unavailable.');
+        }
+        const svg_price_yaxis_image = await fetch_price_yaxis_response.text();
+        const price_yaxis_label_div = graphs_wrapper_div.querySelector("div[class='price_yaxis_label']");
+        const price_label = graphs_wrapper_div.querySelector("div[id='price_label']");
+        if (price_label) {
+            price_label.innerHTML = 'Stock<br />Trading<br />Price';
+            price_label.style.cssText = 'background-color: #494949; color:#f4f4f4;';
+        }
+        if (price_yaxis_label_div) {
+            price_yaxis_label_div.innerHTML = svg_price_yaxis_image;
+        }
+    } catch (error) {
+        price_yaxis_label_div.innerHTML = error;
+    }
+    try {
         const fetch_price_response = await fetch(domain + '/draw_price');
         if (!fetch_price_response.ok) {
             throw new Error('Stock price API is unavailable.');
@@ -105,6 +123,11 @@ async function LoadChartImages() {
         }
         const svg_volume_yaxis_image = await fetch_volume_yaxis_response.text();
         const volume_yaxis_label_div = graphs_wrapper_div.querySelector("div[class='volume_yaxis_label']");
+        const volume_label = graphs_wrapper_div.querySelector("div[id='volume_label']");
+        if (volume_label) {
+            volume_label.innerHTML = 'Stock<br />Trading<br />Volume';
+            volume_label.style.cssText = 'background-color: #494949; color:#f4f4f4;';
+        }
         if (volume_yaxis_label_div) {
             volume_yaxis_label_div.innerHTML = svg_volume_yaxis_image;
         }
@@ -126,6 +149,25 @@ async function LoadChartImages() {
     }
     try {
         const ticker = 'NVDA';
+        const fetch_sentiment_yaxis_response = await fetch(domain + `/draw_sentiment_yaxis/${ticker}`);
+        if (!fetch_sentiment_yaxis_response.ok) {
+            throw new Error('Sentiment yaxis is unavailable.');
+        }
+        const svg_sentiment_yaxis_image = await fetch_sentiment_yaxis_response.text();
+        const sentiment_yaxis_label_div = graphs_wrapper_div.querySelector("div[class='sentiment_yaxis_label']");
+        const sentiment_label = graphs_wrapper_div.querySelector("div[id='sentiment_label']");
+        if (sentiment_label) {
+            sentiment_label.innerHTML = 'AI ML<br />Stock<br />Sentiment';
+            sentiment_label.style.cssText = 'background-color: #494949; color:#f4f4f4;';
+        }
+        if (sentiment_yaxis_label_div) {
+            sentiment_yaxis_label_div.innerHTML = svg_sentiment_yaxis_image;
+        }
+    } catch (error) {
+        sentiment_yaxis_label_div.innerHTML = error;
+    }
+    try {
+        const ticker = 'NVDA';
         const fetch_sentiment_response = await fetch(domain + `/draw_sentiment/${ticker}`);
         if (!fetch_sentiment_response.ok) {
             throw new Error('AI ML stock sentiment API is unavailable.');
@@ -137,6 +179,25 @@ async function LoadChartImages() {
         }
     } catch (error) {
         sentiment_graph_div.innerHTML = error;
+    }
+    try {
+        const fetch_xaxis_response = await fetch(domain + '/draw_xaxis');
+        if (!fetch_xaxis_response.ok) {
+            throw new Error('xaxis is unavailable.');
+        }
+        const svg_xaxis_image = await fetch_xaxis_response.text();
+        const volume_graph_container_clientRect = graphs_wrapper_div.querySelector("div[class='volume_graph_container']").getBoundingClientRect();
+        const xaxis_outer_div_container = graphs_wrapper_div.querySelector("div[class='xaxis_outer_div_container']");
+        if (xaxis_outer_div_container) {
+            const xaxis_graph_div = xaxis_outer_div_container.querySelector("div[class='xaxis_graph_div']");
+            if (xaxis_graph_div && volume_graph_container_clientRect) {
+                const xaxis_outer_div_container_width = "width:" + volume_graph_container_clientRect.width + "px;";
+                xaxis_outer_div_container.style.cssText = xaxis_outer_div_container_width + 'background-color: #f4f4f4;';
+                xaxis_graph_div.innerHTML = svg_xaxis_image;
+            }
+        }
+    } catch (error) {
+        xaxis_graph_div.innerHTML = error;
     }
 }
 
