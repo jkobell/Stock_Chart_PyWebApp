@@ -85,26 +85,42 @@ function IncrementResolution() {
 
 async function LoadChartImages() {
     const domain = 'http://127.0.0.1:5000';
+    const cache_no_store = ', { cache: "no-store" }';
+    const historical_datetime_value = document.querySelector("input[id='begin_datetime_textbox']").value;
+    const resolution_value = document.querySelector("input[id='chart_resolution_control_textbox']").value;
+    const ticker_value = document.querySelector("input[id='stock_symbol_textbox']").value;
     try {
-        const fetch_price_yaxis_response = await fetch(domain + '/draw_price_yaxis');
+        let fetch_price_yaxis_response = null;
+        const price_yaxis_label_div = graphs_wrapper_div.querySelector("div[class='price_yaxis_label']");
+        if (historical_datetime_value.length === 19 && resolution_value.length > 4 && ticker_value.length > 3) {
+            fetch_price_yaxis_response = await fetch(domain + '/draw_price_yaxis/'+ ticker_value + '|' + historical_datetime_value + '|' + resolution_value, { cache: "no-store" });
+        }
+        else {
+            fetch_price_yaxis_response = await fetch(domain + '/draw_price_yaxis', { cache: "no-store" });
+        }
         if (!fetch_price_yaxis_response.ok) {
             throw new Error('Price yaxis is unavailable.');
         }
-        const svg_price_yaxis_image = await fetch_price_yaxis_response.text();
-        const price_yaxis_label_div = graphs_wrapper_div.querySelector("div[class='price_yaxis_label']");
+        const svg_price_yaxis_image = await fetch_price_yaxis_response.json();
+        /* const svg_price_yaxis_image = await fetch_price_yaxis_response.text(); */
+        /* const price_yaxis_label_div = graphs_wrapper_div.querySelector("div[class='price_yaxis_label']"); */
         const price_label = graphs_wrapper_div.querySelector("div[id='price_label']");
         if (price_label) {
             price_label.innerHTML = 'Stock<br />Trading<br />Price';
             price_label.style.cssText = 'background-color: #494949; color:#f4f4f4;';
         }
         if (price_yaxis_label_div) {
-            price_yaxis_label_div.innerHTML = svg_price_yaxis_image;
+            price_yaxis_label_div.innerHTML = svg_price_yaxis_image.price_yaxis;
+        }
+        const price_graph_div = graphs_wrapper_div.querySelector("div[class='price_graph_div']");
+        if (price_graph_div) {
+            price_graph_div.innerHTML = svg_price_yaxis_image.price;
         }
     } catch (error) {
         price_yaxis_label_div.innerHTML = error;
     }
-    try {
-        const fetch_price_response = await fetch(domain + '/draw_price');
+    /* try {
+        const fetch_price_response = await fetch(domain + '/draw_price', { cache: "no-store" });
         if (!fetch_price_response.ok) {
             throw new Error('Stock price API is unavailable.');
         }
@@ -115,9 +131,9 @@ async function LoadChartImages() {
         }
     } catch (error) {
         price_graph_div.innerHTML = error;
-    }
+    } */
     try {
-        const fetch_volume_yaxis_response = await fetch(domain + '/draw_volume_yaxis');
+        const fetch_volume_yaxis_response = await fetch(domain + '/draw_volume_yaxis', { cache: "no-store" });
         if (!fetch_volume_yaxis_response.ok) {
             throw new Error('Volume yaxis is unavailable.');
         }
@@ -135,7 +151,7 @@ async function LoadChartImages() {
         volume_yaxis_label_div.innerHTML = error;
     }
     try {
-        const fetch_volume_response = await fetch(domain + '/draw_volume');
+        const fetch_volume_response = await fetch(domain + '/draw_volume', { cache: "no-store" });
         if (!fetch_volume_response.ok) {
             throw new Error('Volume API is unavailable.');
         }
@@ -149,7 +165,7 @@ async function LoadChartImages() {
     }
     try {
         const ticker = 'NVDA';
-        const fetch_sentiment_yaxis_response = await fetch(domain + `/draw_sentiment_yaxis/${ticker}`);
+        const fetch_sentiment_yaxis_response = await fetch(domain + `/draw_sentiment_yaxis/${ticker}`, { cache: "no-store" });
         if (!fetch_sentiment_yaxis_response.ok) {
             throw new Error('Sentiment yaxis is unavailable.');
         }
@@ -168,7 +184,7 @@ async function LoadChartImages() {
     }
     try {
         const ticker = 'NVDA';
-        const fetch_sentiment_response = await fetch(domain + `/draw_sentiment/${ticker}`);
+        const fetch_sentiment_response = await fetch(domain + `/draw_sentiment/${ticker}`, { cache: "no-store" });
         if (!fetch_sentiment_response.ok) {
             throw new Error('AI ML stock sentiment API is unavailable.');
         }
@@ -181,7 +197,7 @@ async function LoadChartImages() {
         sentiment_graph_div.innerHTML = error;
     }
     try {
-        const fetch_xaxis_response = await fetch(domain + '/draw_xaxis');
+        const fetch_xaxis_response = await fetch(domain + '/draw_xaxis', { cache: "no-store" });
         if (!fetch_xaxis_response.ok) {
             throw new Error('xaxis is unavailable.');
         }

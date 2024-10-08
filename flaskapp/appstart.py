@@ -1,7 +1,8 @@
 import time
-from flask import Flask
+from flask import Flask, jsonify
 from flask import render_template
 import src.fire as fr
+import src.api_handler as ah
 
 app = Flask(__name__)
 
@@ -22,6 +23,17 @@ def draw_price_line_graph():
 def draw_price_yaxis_only():
     #return f'<!doctype html><body><div style="text-align:center;">{fr.make_yaxis_only_volume_svg_chart()}</div></body>'
     return f'{fr.make_yaxis_only_price_svg_chart()}'
+
+@app.route('/draw_price_yaxis/<ticker>|<begin_datetime>|<resolution>')
+def draw_price_yaxis_only_historical(ticker=None, begin_datetime=None, resolution=None):
+    #return f'<!doctype html><body><div style="text-align:center;">{fr.make_yaxis_only_volume_svg_chart()}</div></body>'
+    #return f'{fr.make_yaxis_only_price_svg_chart(begin_timedate)}'
+    api_json = ah.get_candlestick_historical(ticker, begin_datetime, resolution)
+    data = {
+        "price_yaxis": f"{fr.make_yaxis_only_price_svg_chart(api_json)}",
+        "price": f"{fr.make_price_svg_chart(api_json)}"
+    }
+    return jsonify(data)
 
 @app.route('/draw_volume')
 def draw_volume_bar_graph():
