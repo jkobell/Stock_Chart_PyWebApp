@@ -1,4 +1,5 @@
 let chart_top_controls_container_div = null;
+let chart_bottom_controls_container_div = null;
 let graphs_wrapper_div = null;
 
 function DecrementResolution() {
@@ -31,13 +32,8 @@ function DecrementResolution() {
         else if (chart_resolution_control_textbox.value.includes('day')) {
             chart_resolution_control_textbox.value = "60 minutes";
         }
-        /* else if (chart_resolution_control_textbox.value.includes('week')) {
-            chart_resolution_control_textbox.value = "1 day";
-        }
-        else if (chart_resolution_control_textbox.value.includes('month')) {
-            chart_resolution_control_textbox.value = "1 week";
-        } */
-    } 
+    }
+    InitChartBottomControls(); 
 }
 
 function IncrementResolution() {
@@ -73,13 +69,490 @@ function IncrementResolution() {
                 }
             }
         }
-        /* else if (chart_resolution_control_textbox.value.includes('day')) {
-            chart_resolution_control_textbox.value = "1 week";
+    }
+    InitChartBottomControls(); 
+}
+
+function DecrementSentimentTime() {
+    const chart_resolution_control_textbox = chart_top_controls_container_div.querySelector("input[id='chart_resolution_control_textbox']");
+    const sentiment_time_adjust_control_textbox = chart_bottom_controls_container_div.querySelector("input[id='sentiment_time_adjust_control_textbox']");
+    if (sentiment_time_adjust_control_textbox) {
+        if (chart_resolution_control_textbox && chart_resolution_control_textbox.value.length > 4) {
+            switch (chart_resolution_control_textbox.value) {
+                case '1 minute':
+                    if (sentiment_time_adjust_control_textbox.value.length > 4) {
+                        switch (sentiment_time_adjust_control_textbox.value) {
+                            case '+4 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+3 minutes';
+                                break;
+                            case '+3 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+2 minutes';
+                                break;
+                            case '+2 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+1 minute';
+                                break;
+                            case '+1 minute':
+                                sentiment_time_adjust_control_textbox.value = '0 minutes';
+                                break;
+                            case '0 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-1 minute';
+                                break;
+                            case '-1 minute':
+                                sentiment_time_adjust_control_textbox.value = '-2 minutes';
+                                break;
+                            case '-2 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-3 minutes';
+                                break;
+                            case '-3 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-4 minutes';
+                                break;
+                        }
+                    } 
+                    break;
+                case '5 minutes':
+                    if (sentiment_time_adjust_control_textbox.value.length > 4) {
+                        switch (sentiment_time_adjust_control_textbox.value) {
+                            case '+55 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+50 minutes';
+                                break;
+                            case '+50 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+45 minutes';
+                                break;
+                            case '+45 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+40 minutes';
+                                break;
+                            case '+40 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+35 minutes';
+                                break;
+                            case '+35 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+30 minutes';
+                                break;
+                            case '+30 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+25 minutes';
+                                break;
+                            case '+25 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+20 minutes';
+                                break;
+                            case '+20 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+15 minutes';
+                                break;
+                            case '+15 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+10 minutes';
+                                break;
+                            case '+10 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+5 minutes';
+                                break;
+                            case '+5 minutes':
+                                sentiment_time_adjust_control_textbox.value = '0 minutes';
+                                break;
+                            case '0 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-5 minutes';
+                                break;
+                            case '-5 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-10 minutes';
+                                break;
+                            case '-10 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-15 minutes';
+                                break;
+                            case '-15 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-20 minutes';
+                                break;
+                            case '-20 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-25 minutes';
+                                break;
+                            case '-25 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-30 minutes';
+                                break;
+                            case '-30 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-35 minutes';
+                                break;
+                            case '-35 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-40 minutes';
+                                break;
+                            case '-40 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-45 minutes';
+                                break;
+                            case '-45 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-50 minutes';
+                                break;
+                            case '-50 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-55 minutes';
+                                break;
+                        }
+                    }
+                    break;
+                case '60 minutes':
+                    if (sentiment_time_adjust_control_textbox.value.length > 4) {
+                        switch (sentiment_time_adjust_control_textbox.value) {
+                            case '+12 hours':
+                                sentiment_time_adjust_control_textbox.value = '+11 hours';
+                                break;
+                            case '+11 hours':
+                                sentiment_time_adjust_control_textbox.value = '+10 hours';
+                                break;
+                            case '+10 hours':
+                                sentiment_time_adjust_control_textbox.value = '+9 hours';
+                                break;
+                            case '+9 hours':
+                                sentiment_time_adjust_control_textbox.value = '+8 hours';
+                                break;
+                            case '+8 hours':
+                                sentiment_time_adjust_control_textbox.value = '+7 hours';
+                                break;
+                            case '+7 hours':
+                                sentiment_time_adjust_control_textbox.value = '+6 hours';
+                                break;
+                            case '+6 hours':
+                                sentiment_time_adjust_control_textbox.value = '+5 hours';
+                                break;
+                            case '+5 hours':
+                                sentiment_time_adjust_control_textbox.value = '+4 hours';
+                                break;
+                            case '+4 hours':
+                                sentiment_time_adjust_control_textbox.value = '+3 hours';
+                                break;
+                            case '+3 hours':
+                                sentiment_time_adjust_control_textbox.value = '+2 hours';
+                                break;
+                            case '+2 hours':
+                                sentiment_time_adjust_control_textbox.value = '+1 hour';
+                                break;
+                            case '+1 hour':
+                                sentiment_time_adjust_control_textbox.value = '0 hours';
+                                break;
+                            case '0 hours':
+                                sentiment_time_adjust_control_textbox.value = '-1 hour';
+                                break;
+                            case '-1 hour':
+                                sentiment_time_adjust_control_textbox.value = '-2 hours';
+                                break;
+                            case '-2 hours':
+                                sentiment_time_adjust_control_textbox.value = '-3 hours';
+                                break;
+                            case '-3 hours':
+                                sentiment_time_adjust_control_textbox.value = '-4 hours';
+                                break;
+                            case '-4 hours':
+                                sentiment_time_adjust_control_textbox.value = '-5 hours';
+                                break;
+                            case '-5 hours':
+                                sentiment_time_adjust_control_textbox.value = '-6 hours';
+                                break;
+                            case '-6 hours':
+                                sentiment_time_adjust_control_textbox.value = '-7 hours';
+                                break;
+                            case '-7 hours':
+                                sentiment_time_adjust_control_textbox.value = '-8 hours';
+                                break;
+                            case '-8 hours':
+                                sentiment_time_adjust_control_textbox.value = '-9 hours';
+                                break;
+                            case '-9 hours':
+                                sentiment_time_adjust_control_textbox.value = '-10 hours';
+                                break;
+                            case '-10 hours':
+                                sentiment_time_adjust_control_textbox.value = '-11 hours';
+                                break;
+                            case '-11 hours':
+                                sentiment_time_adjust_control_textbox.value = '-12 hours';
+                                break;
+                        }
+                    }
+                    break;
+                case '1 day':
+                    if (sentiment_time_adjust_control_textbox.value.length > 4) {
+                        switch (sentiment_time_adjust_control_textbox.value) {
+                            case '+7 days':
+                                sentiment_time_adjust_control_textbox.value = '+6 days';
+                                break;
+                            case '+6 days':
+                                sentiment_time_adjust_control_textbox.value = '+5 days';
+                                break;
+                            case '+5 days':
+                                sentiment_time_adjust_control_textbox.value = '+4 days';
+                                break;
+                            case '+4 days':
+                                sentiment_time_adjust_control_textbox.value = '+3 days';
+                                break;
+                            case '+3 days':
+                                sentiment_time_adjust_control_textbox.value = '+2 days';
+                                break;
+                            case '+2 days':
+                                sentiment_time_adjust_control_textbox.value = '+1 day';
+                                break;
+                            case '+1 day':
+                                sentiment_time_adjust_control_textbox.value = '0 days';
+                                break;
+                            case '0 days':
+                                sentiment_time_adjust_control_textbox.value = '-1 day';
+                                break;
+                            case '-1 day':
+                                sentiment_time_adjust_control_textbox.value = '-2 days';
+                                break;
+                            case '-2 days':
+                                sentiment_time_adjust_control_textbox.value = '-3 days';
+                                break;
+                            case '-3 days':
+                                sentiment_time_adjust_control_textbox.value = '-4 days';
+                                break;
+                            case '-4 days':
+                                sentiment_time_adjust_control_textbox.value = '-5 days';
+                                break;
+                            case '-5 days':
+                                sentiment_time_adjust_control_textbox.value = '-6 days';
+                                break;
+                            case '-6 days':
+                                sentiment_time_adjust_control_textbox.value = '-7 days';
+                                break;
+                        }
+                    }
+                    break;
+                default:
+                    sentiment_time_adjust_control_textbox.value = 'value error';
+            }
         }
-        else if (chart_resolution_control_textbox.value.includes('week')) {
-            chart_resolution_control_textbox.value = "1 month";
-        } */
-    } 
+    }
+}
+
+function IncrementSentimentTime() {
+    const chart_resolution_control_textbox = chart_top_controls_container_div.querySelector("input[id='chart_resolution_control_textbox']");
+    const sentiment_time_adjust_control_textbox = chart_bottom_controls_container_div.querySelector("input[id='sentiment_time_adjust_control_textbox']");
+    if (sentiment_time_adjust_control_textbox) {
+        if (chart_resolution_control_textbox && chart_resolution_control_textbox.value.length > 4) {
+            switch (chart_resolution_control_textbox.value) {
+                case '1 minute':
+                    if (sentiment_time_adjust_control_textbox.value.length > 4) {
+                        switch (sentiment_time_adjust_control_textbox.value) {
+                            case '+3 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+4 minutes';
+                                break;
+                            case '+2 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+3 minutes';
+                                break;
+                            case '+1 minute':
+                                sentiment_time_adjust_control_textbox.value = '+2 minutes';
+                                break;
+                            case '0 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+1 minute';
+                                break;
+                            case '-1 minute':
+                                sentiment_time_adjust_control_textbox.value = '0 minutes';
+                                break;
+                            case '-2 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-1 minute';
+                                break;
+                            case '-3 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-2 minutes';
+                                break;
+                            case '-4 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-3 minutes';
+                            break;
+                        }
+                    } 
+                    break;
+                case '5 minutes':
+                    if (sentiment_time_adjust_control_textbox.value.length > 4) {
+                        switch (sentiment_time_adjust_control_textbox.value) {
+                            case '+50 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+55 minutes';
+                                break;
+                            case '+45 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+50 minutes';
+                                break;
+                            case '+40 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+45 minutes';
+                                break;
+                            case '+35 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+40 minutes';
+                                break;
+                            case '+30 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+35 minutes';
+                                break;
+                            case '+25 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+30 minutes';
+                                break;
+                            case '+20 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+25 minutes';
+                                break;
+                            case '+15 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+20 minutes';
+                                break;
+                            case '+10 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+15 minutes';
+                                break;
+                            case '+5 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+10 minutes';
+                                break;
+                            case '0 minutes':
+                                sentiment_time_adjust_control_textbox.value = '+5 minutes';
+                                break;
+                            case '-5 minutes':
+                                sentiment_time_adjust_control_textbox.value = '0 minutes';
+                                break;
+                            case '-10 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-5 minutes';
+                                break;
+                            case '-15 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-10 minutes';
+                                break;
+                            case '-20 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-15 minutes';
+                                break;
+                            case '-25 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-20 minutes';
+                                break;
+                            case '-30 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-25 minutes';
+                                break;
+                            case '-35 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-30 minutes';
+                                break;
+                            case '-40 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-35 minutes';
+                                break;
+                            case '-45 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-40 minutes';
+                                break;
+                            case '-50 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-45 minutes';
+                                break;
+                            case '-55 minutes':
+                                sentiment_time_adjust_control_textbox.value = '-50 minutes';
+                                break;
+                        }
+                    }
+                    break;
+                case '60 minutes':
+                    if (sentiment_time_adjust_control_textbox.value.length > 4) {
+                        switch (sentiment_time_adjust_control_textbox.value) {
+                            case '+11 hours':
+                                sentiment_time_adjust_control_textbox.value = '+12 hours';
+                                break;
+                            case '+10 hours':
+                                sentiment_time_adjust_control_textbox.value = '+11 hours';
+                                break;
+                            case '+9 hours':
+                                sentiment_time_adjust_control_textbox.value = '+10 hours';
+                                break;
+                            case '+8 hours':
+                                sentiment_time_adjust_control_textbox.value = '+9 hours';
+                                break;
+                            case '+7 hours':
+                                sentiment_time_adjust_control_textbox.value = '+8 hours';
+                                break;
+                            case '+6 hours':
+                                sentiment_time_adjust_control_textbox.value = '+7 hours';
+                                break;
+                            case '+5 hours':
+                                sentiment_time_adjust_control_textbox.value = '+6 hours';
+                                break;
+                            case '+4 hours':
+                                sentiment_time_adjust_control_textbox.value = '+5 hours';
+                                break;
+                            case '+3 hours':
+                                sentiment_time_adjust_control_textbox.value = '+4 hours';
+                                break;
+                            case '+2 hours':
+                                sentiment_time_adjust_control_textbox.value = '+3 hours';
+                                break;
+                            case '+1 hour':
+                                sentiment_time_adjust_control_textbox.value = '+2 hours';
+                                break;
+                            case '0 hours':
+                                sentiment_time_adjust_control_textbox.value = '+1 hour';
+                                break;
+                            case '-1 hour':
+                                sentiment_time_adjust_control_textbox.value = '0 hours';
+                                break;
+                            case '-2 hours':
+                                sentiment_time_adjust_control_textbox.value = '-1 hour';
+                                break;
+                            case '-3 hours':
+                                sentiment_time_adjust_control_textbox.value = '-2 hours';
+                                break;
+                            case '-4 hours':
+                                sentiment_time_adjust_control_textbox.value = '-3 hours';
+                                break;
+                            case '-5 hours':
+                                sentiment_time_adjust_control_textbox.value = '-4 hours';
+                                break;
+                            case '-6 hours':
+                                sentiment_time_adjust_control_textbox.value = '-5 hours';
+                                break;
+                            case '-7 hours':
+                                sentiment_time_adjust_control_textbox.value = '-6 hours';
+                                break;
+                            case '-8 hours':
+                                sentiment_time_adjust_control_textbox.value = '-7 hours';
+                                break;
+                            case '-9 hours':
+                                sentiment_time_adjust_control_textbox.value = '-8 hours';
+                                break;
+                            case '-10 hours':
+                                sentiment_time_adjust_control_textbox.value = '-9 hours';
+                                break;
+                            case '-11 hours':
+                                sentiment_time_adjust_control_textbox.value = '-10 hours';
+                                break;
+                            case '-12 hours':
+                            sentiment_time_adjust_control_textbox.value = '-11 hours';
+                            break;
+                        }
+                    }
+                    break;
+                case '1 day':
+                    if (sentiment_time_adjust_control_textbox.value.length > 4) {
+                        switch (sentiment_time_adjust_control_textbox.value) {
+                            case '+6 days':
+                                sentiment_time_adjust_control_textbox.value = '+7 days';
+                                break;
+                            case '+5 days':
+                                sentiment_time_adjust_control_textbox.value = '+6 days';
+                                break;
+                            case '+4 days':
+                                sentiment_time_adjust_control_textbox.value = '+5 days';
+                                break;
+                            case '+3 days':
+                                sentiment_time_adjust_control_textbox.value = '+4 days';
+                                break;
+                            case '+2 days':
+                                sentiment_time_adjust_control_textbox.value = '+3 days';
+                                break;
+                            case '+1 day':
+                                sentiment_time_adjust_control_textbox.value = '+2 days';
+                                break;
+                            case '0 days':
+                                sentiment_time_adjust_control_textbox.value = '+1 day';
+                                break;
+                            case '-1 day':
+                                sentiment_time_adjust_control_textbox.value = '0 days';
+                                break;
+                            case '-2 days':
+                                sentiment_time_adjust_control_textbox.value = '-1 day';
+                                break;
+                            case '-3 days':
+                                sentiment_time_adjust_control_textbox.value = '-2 days';
+                                break;
+                            case '-4 days':
+                                sentiment_time_adjust_control_textbox.value = '-3 days';
+                                break;
+                            case '-5 days':
+                                sentiment_time_adjust_control_textbox.value = '-4 days';
+                                break;
+                            case '-6 days':
+                                sentiment_time_adjust_control_textbox.value = '-5 days';
+                                break;
+                            case '-7 days':
+                                sentiment_time_adjust_control_textbox.value = '-6 days';
+                                break;
+                        }
+                    }
+                    break;
+                default:
+                    sentiment_time_adjust_control_textbox.value = 'value error';
+            }
+        }
+    }
 }
 
 async function LoadChartImages() {
@@ -217,28 +690,56 @@ function InitChartTopControls() {
         }
     }
 }
+function InitChartBottomControls() {
+    const chart_resolution_control_textbox = chart_top_controls_container_div.querySelector("input[id='chart_resolution_control_textbox']");
+    const sentiment_time_adjust_control_textbox = chart_bottom_controls_container_div.querySelector("input[id='sentiment_time_adjust_control_textbox']");
+    if (sentiment_time_adjust_control_textbox) {
+        if (chart_resolution_control_textbox && chart_resolution_control_textbox.value.length > 4) {
+            switch (chart_resolution_control_textbox.value) {
+                case '1 minute':
+                    sentiment_time_adjust_control_textbox.value = '0 minutes';
+                    break;
+                case '5 minutes':
+                    sentiment_time_adjust_control_textbox.value = '0 minutes';
+                    break;
+                case '60 minutes':
+                    sentiment_time_adjust_control_textbox.value = '0 hours';
+                    break;
+                case '1 day':
+                    sentiment_time_adjust_control_textbox.value = '0 days';
+                    break;
+                default:
+                    sentiment_time_adjust_control_textbox.value = 'value error';
+            }
+        }
+    }
+    const sentiment_time_adjust_control_left_arrow_button = chart_bottom_controls_container_div.querySelector("input[id='sentiment_time_adjust_control_left_arrow']");
+    if (sentiment_time_adjust_control_left_arrow_button) {
+        const left_arrow_button = new Promise((resolve) => {
+            sentiment_time_adjust_control_left_arrow_button.removeEventListener("click", DecrementSentimentTime, false);
+            resolve();
+        });
+        left_arrow_button.then(() => {
+            sentiment_time_adjust_control_left_arrow_button.addEventListener("click", DecrementSentimentTime, false);
+        });
+    }
+    const sentiment_time_adjust_control_right_arrow_button = chart_bottom_controls_container_div.querySelector("input[id='sentiment_time_adjust_control_right_arrow']");
+    if (sentiment_time_adjust_control_right_arrow_button) {
+        const right_arrow_button = new Promise((resolve) => {
+            sentiment_time_adjust_control_right_arrow_button.removeEventListener("click", IncrementSentimentTime, false);
+            resolve();
+        });
+        right_arrow_button.then(() => {
+            sentiment_time_adjust_control_right_arrow_button.addEventListener("click", IncrementSentimentTime, false);
+        });
+    }
+}
 function InitControls() {
     chart_top_controls_container_div = document.querySelector("div[class='chart_top_controls_container']");
+    chart_bottom_controls_container_div = document.querySelector("div[class='chart_bottom_controls_container']");
     graphs_wrapper_div = document.querySelector("div[class='graphs_wrapper']");
 
-    InitChartTopControls(); 
+    InitChartTopControls();
+    InitChartBottomControls(); 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 document.addEventListener("DOMContentLoaded", InitControls, false);

@@ -41,7 +41,7 @@ def get_candlestick_historical(ticker, begin_datetime, resolution):
 
 def get_sentiment_historical(ticker, begin_datetime, resolution):
     GRAPH_TICK_SIZE = 36
-    token = 'zJatVszcYyN4UU9wycISRkuuWXMHOjBS'
+    token = '4IOkEwgfNlssKmQS9eWs2WM5DF59yQyL'
     headers = {'Token': f'{token}'}
     end_datetime = None
     data_resolution = None

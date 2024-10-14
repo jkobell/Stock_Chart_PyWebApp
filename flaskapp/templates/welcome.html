@@ -112,9 +112,35 @@
                 </div>
             </div>
         </div>
-        <div class="chart_bottom_controls_container"></div>
-
+        <div class="chart_bottom_controls_container">
+            <div class="chart_bottom_controls_container_padding"></div>
+            <div class="sentiment_refresh_button_container">
+                <div id="sentiment_refresh_button_label">AI ML Sentiment Chart Refresh</div>
+                <div class="sentiment_refresh_button_wrapper">
+                    <input id="sentiment_refresh_button" type="button" value="Refresh"/>
+                </div>
+            </div>
+            <div class="sentiment_time_adjust_wrapper">
+                <div id="sentiment_time_adjust_label">
+                    AI ML Time Adjustment
+                </div>
+                <div class="sentiment_time_adjust_control_wrapper">
+                    <div class="sentiment_time_adjust_control_left_arrow_container">
+                        <input id="sentiment_time_adjust_control_left_arrow" type="button" value="&#8678;"/>
+                    </div>
+                    <div class="sentiment_time_adjust_control_textbox_container">
+                        <input id=sentiment_time_adjust_control_textbox type="text" readonly="readonly" value=""/>
+                    </div>
+                    <div class="sentiment_time_adjust_control_right_arrow_container">
+                        <input id="sentiment_time_adjust_control_right_arrow" type="button" value="&#8680;"/>
+                    </div>
+                </div>
+            </div>
+            <div class="chart_bottom_controls_container_padding"></div>
         </div>
+    </div>
+    <div class="footer">
+
     </div>
     <script src="/static/welcome.js" charset="utf-8"></script>
 </body>
