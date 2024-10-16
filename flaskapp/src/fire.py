@@ -6,6 +6,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from io import StringIO
+import datetime
 
 def make_price_svg_chart(api_json):
     #candlestick_py_obj = json.loads('{"c":[122.63,122.26,121.7,120.93,121.4,121.42,120.455,121.07,121.3,121.01,121.16,121.17,120.96,120.68,120.71,120.31,119.92,120.25,120.2,120.54,120.66,120.64,120.6,120.62,120.78,120.58,120.38,120.42,120.48,120.84,121.06,120.99,120.98,120.86,120.7,120.76,121.07],"h":[122.98,122.38,122.4,121.6,121.72,121.715,121.34,121.14,121.43,121.51,121.2,121.23,121.12,120.88,120.89,120.54,120.55,120.4,120.23,120.57,120.86,120.82,120.6,120.75,120.83,120.955,120.68,120.61,120.495,120.905,121.06,121.18,121.05,120.935,120.81,120.88,121.08],"l":[122.47,121.97,121.16,120.92,121.3,121.22,120.4,120.585,121.06,120.9,120.81,120.92,120.87,120.6,120.55,120.26,119.86,119.88,119.96,120.28,120.39,120.54,120.36,120.52,120.68,120.58,120.27,120.38,120.28,120.47,120.785,120.86,120.865,120.81,120.67,120.73,120.8],"o":[122.77,122.32,122.39,121.535,121.325,121.32,121.14,120.845,121.06,121.25,120.86,120.935,121.03,120.82,120.67,120.405,120.39,120.03,120.17,120.33,120.48,120.54,120.47,120.605,120.77,120.82,120.565,120.43,120.48,120.5,120.82,121.14,121.04,120.82,120.81,120.85,120.89],"s":"ok","t":[1727445600,1727445900,1727446200,1727446500,1727446800,1727447100,1727447400,1727447700,1727448000,1727448300,1727448600,1727448900,1727449200,1727449500,1727449800,1727450100,1727450400,1727450700,1727451000,1727451300,1727451600,1727451900,1727452200,1727452500,1727452800,1727453100,1727453400,1727453700,1727454000,1727454300,1727454600,1727454900,1727455200,1727455500,1727455800,1727456100,1727456400],"v":[4028723,4310445,6186041,5364763,3551863,2624686,5574076,3382330,2557207,2725433,2600565,1620331,1711087,2724186,2018384,3071947,5516117,3339675,2204258,2355296,2695808,2327535,1543082,1283189,1447335,1782386,1946354,1352227,1244523,1934574,1401402,1758022,1043071,904326,1214007,951893,1348354]}')
@@ -158,6 +159,42 @@ def make_sentiment_svg_chart(symbol, api_json, resolution):
     plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m-%d-%Y %H:%M'))
     plt.tick_params(axis='both', which='both', top=False, right=False, bottom=False, left=False, labeltop=False, labelright=False, labelbottom=False, labelleft=False)
     #plt.tick_params(axis='x', which='both', bottom=False, top=False, labelbottom=False, labeltop=False)
+    plt.tight_layout() # minimum padding at xticks and labels
+    #try: # log if exception
+    plt.close()
+    plt_data = StringIO()
+    fig1b.savefig(plt_data, format='svg') # svg format for better scale/zoom image
+    plt_data.seek(0)
+    svg_data = plt_data.getvalue()
+    return svg_data            
+    #except Exception as Argument: # throw if exception during savefig
+        #logging.exception(f"An error occured while saving chart: {chart_id} | Error: {str(Argument)}")
+
+def make_sentiment_svg_chart_adjusted(symbol, api_json, resolution):
+    sentiment_py_obj = json.loads(api_json)
+    df = pd.DataFrame(sentiment_py_obj['data'][symbol])
+    dfdt = pd.to_datetime(df.timestamp, utc=True)    
+    plt.ioff()
+    fig1b = plt.figure(figsize=[16.0, 9.0], frameon=False) #new instance for each chart
+    if (resolution == '1 minute'):
+        plt.bar(dfdt - pd.Timedelta(seconds=8), df.neg_total_count, width=.00009, color='r', align='center')
+        plt.bar(dfdt + pd.Timedelta(seconds=8), df.pos_total_count, width=.00009, color='g', align='center')
+    if (resolution == '5 minutes'):
+        plt.bar(dfdt - pd.Timedelta(seconds=40), df.neg_total_count, width=.0009, color='r', align='center')
+        plt.bar(dfdt + pd.Timedelta(seconds=40), df.pos_total_count, width=.0009, color='g', align='center')
+    if (resolution == '60 minutes'):
+        plt.bar(dfdt - pd.Timedelta(minutes=7), df.neg_total_count, width=.009, color='r', align='center')
+        plt.bar(dfdt + pd.Timedelta(minutes=7), df.pos_total_count, width=.009, color='g', align='center')
+    if (resolution == '1 day'):
+        plt.bar(dfdt - pd.Timedelta(hours=2.5), df.neg_total_count, width=.2, color='r', align='center')
+        plt.bar(dfdt + pd.Timedelta(hours=2.5), df.pos_total_count, width=.2, color='g', align='center')
+    plt.ylabel(None)
+    plt.xlabel(None)
+    plt.title(None)
+    plt.xticks(dfdt, rotation = 90)
+    plt.ticklabel_format(axis='y', style='plain')
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%m-%d-%Y %H:%M'))
+    plt.tick_params(axis='both', which='both', top=False, right=False, bottom=False, left=False, labeltop=False, labelright=False, labelbottom=False, labelleft=False)
     plt.tight_layout() # minimum padding at xticks and labels
     #try: # log if exception
     plt.close()

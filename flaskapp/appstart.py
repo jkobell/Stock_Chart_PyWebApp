@@ -1,4 +1,5 @@
 import time
+import datetime
 from flask import Flask, jsonify
 from flask import render_template
 import src.fire as fr
@@ -45,6 +46,16 @@ def draw_sentiment_graphs_historical(ticker=None, begin_datetime=None, resolutio
     }
     return jsonify(data)
 
+@app.route('/draw_sentiment_graphs_adjusted/<ticker>|<begin_datetime>|<resolution>|<time_adjust_dataset>')
+def draw_sentiment_graphs_adjusted(ticker=None, begin_datetime=None, resolution=None, time_adjust_dataset=None):
+    adjusted_begin_datetime = adjust_begin_datetime(begin_datetime, time_adjust_dataset)
+    api_json = ah.get_sentiment_historical(ticker, adjusted_begin_datetime, resolution)
+    data = {
+        "sentiment_yaxis": f"{fr.make_yaxis_only_sentiment_svg_chart(ticker, api_json)}",
+        "sentiment": f"{fr.make_sentiment_svg_chart_adjusted(ticker, api_json, resolution)}"
+    }
+    return jsonify(data)
+
 @app.route('/draw_volume')
 def draw_volume_bar_graph():
     #return f'<!doctype html><body><div style="text-align:right;">{fr.make_volume_svg_chart()}</div></body>'
@@ -75,3 +86,41 @@ def draw_sentiment_bar_graph(symbol=None):
     sentiment_svg_chart = fr.make_sentiment_svg_chart(symbol)
     #return f'<!doctype html><body><div style="text-align:right;">{svg_chart}</div></body>'
     return f'{sentiment_svg_chart}'
+
+def adjust_begin_datetime(begin_datetime, time_adjust_dataset):
+    if begin_datetime is not None and time_adjust_dataset is not None:
+        gmt_time = datetime.datetime.strptime(begin_datetime, "%Y-%m-%dT%H:%M:%S").replace(tzinfo=datetime.timezone.utc)
+        time_adjust_dataset_split = time_adjust_dataset.split(':')
+        if time_adjust_dataset_split is not None and len(time_adjust_dataset_split) == 3:
+            match time_adjust_dataset_split[0]:
+                case '+':
+                    match time_adjust_dataset_split[1]:
+                        case 'min':
+                            new_datetime_object = gmt_time - datetime.timedelta(minutes=int(time_adjust_dataset_split[2]))
+                            begin_datetime = new_datetime_object.strftime("%Y-%m-%dT%H:%M:%S")
+                            return begin_datetime
+                        case 'hour':
+                            new_datetime_object = gmt_time - datetime.timedelta(hours=int(time_adjust_dataset_split[2]))
+                            begin_datetime = new_datetime_object.strftime("%Y-%m-%dT%H:%M:%S")
+                            return begin_datetime
+                        case 'day':
+                            new_datetime_object = gmt_time - datetime.timedelta(days=int(time_adjust_dataset_split[2]))
+                            begin_datetime = new_datetime_object.strftime("%Y-%m-%dT%H:%M:%S")
+                            return begin_datetime
+                case '-':
+                    match time_adjust_dataset_split[1]:
+                        case 'min':
+                            new_datetime_object = gmt_time + datetime.timedelta(minutes=int(time_adjust_dataset_split[2]))
+                            begin_datetime = new_datetime_object.strftime("%Y-%m-%dT%H:%M:%S")
+                            return begin_datetime
+                        case 'hour':
+                            new_datetime_object = gmt_time + datetime.timedelta(hours=int(time_adjust_dataset_split[2]))
+                            begin_datetime = new_datetime_object.strftime("%Y-%m-%dT%H:%M:%S")
+                            return begin_datetime
+                        case 'day':
+                            new_datetime_object = gmt_time + datetime.timedelta(days=int(time_adjust_dataset_split[2]))
+                            begin_datetime = new_datetime_object.strftime("%Y-%m-%dT%H:%M:%S")
+                            return begin_datetime
+                case '*':
+                    return begin_datetime
+                            
